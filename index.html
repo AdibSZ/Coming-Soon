@@ -2,17 +2,16 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>2077 // به زودی</title>
   <meta name="description" content="2077 - به‌زودی دروازه‌ها باز می‌شوند." />
   
-  <!-- لوگوی شما در تب بالای مرورگر (Favicon) -->
+  <!-- لوگوی تب مرورگر (Favicon) -->
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="apple-touch-icon" href="logo.svg" />
 
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
-    /* فراخوانی فونت‌های پیدا موجود در پوشه */
     @font-face {
       font-family: 'Peyda';
       src: url('Peyda-Regular.ttf') format('truetype');
@@ -36,28 +35,32 @@
       --brand-dark: #1d1d1b;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       background-color: var(--brand-dark);
       color: var(--brand-white);
       font-family: 'Peyda', Tahoma, sans-serif;
-      height: 100vh;
+      min-height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
       user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
     }
 
     #bg-stage {
       position: fixed;
       inset: 0;
       z-index: 1;
+      overflow: hidden;
     }
 
-    /* لایه مخفی مخصوص حالت اشعه X (ایده ۲) */
+    /* لایه مخفی حالت اشعه X (مود ۲) */
     .xray-layer {
       position: fixed;
       inset: 0;
@@ -70,12 +73,12 @@
       display: none;
       flex-direction: column;
       justify-content: space-between;
-      padding: 28px;
+      padding: 24px;
       font-family: 'JetBrains Mono', monospace;
       color: var(--brand-mint);
-      font-size: 12px;
-      -webkit-mask-image: radial-gradient(circle 230px at var(--x, 50%) var(--y, 50%), #000 25%, transparent 100%);
-      mask-image: radial-gradient(circle 230px at var(--x, 50%) var(--y, 50%), #000 25%, transparent 100%);
+      font-size: 11px;
+      -webkit-mask-image: radial-gradient(circle 210px at var(--x, 50%) var(--y, 50%), #000 25%, transparent 100%);
+      mask-image: radial-gradient(circle 210px at var(--x, 50%) var(--y, 50%), #000 25%, transparent 100%);
       pointer-events: none;
     }
 
@@ -91,27 +94,31 @@
       position: relative;
       z-index: 5;
       text-align: center;
-      padding: 38px 40px;
+      padding: 34px 38px;
       max-width: 480px;
       width: 92%;
       transition: all 0.3s ease;
+      pointer-events: none;
     }
 
-    /* باکس شیشه‌ای سایبرپانکی برای تم ۳ و ۴ (دقیقاً هم‌فرم دکمه تلگرام) */
+    /* باکس شیشه‌ای سایبرپانکی برای مودهای پرباران / متراکم */
     .theme-glass {
-      background: rgba(29, 29, 27, 0.65);
-      border: 1px solid rgba(93, 248, 216, 0.35);
-      backdrop-filter: blur(8px);
+      background: rgba(29, 29, 27, 0.78);
+      border: 1px solid rgba(93, 248, 216, 0.38);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
-      box-shadow: 0 0 40px rgba(246, 36, 119, 0.15);
+      box-shadow: 0 0 45px rgba(246, 36, 119, 0.2), inset 0 0 20px rgba(93, 248, 216, 0.05);
+      pointer-events: auto;
     }
 
-    /* باکس سایبرپانکی تم ۵ (فقط بالا-چپ و پایین-راست برش خورده مثل دکمه تلگرام) */
+    /* باکس سایبرپانکی پخ‌دار دوگانه */
     .theme-rain-box {
       background: linear-gradient(135deg, var(--brand-pink) 0%, var(--brand-mint) 100%);
       padding: 2px;
       clip-path: polygon(28px 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%, 0 28px);
       filter: drop-shadow(0 0 25px rgba(246, 36, 119, 0.35));
+      pointer-events: auto;
     }
 
     .hero-inner {
@@ -121,13 +128,13 @@
     }
 
     .theme-rain-box .hero-inner {
-      background: rgba(22, 22, 21, 0.94);
-      backdrop-filter: blur(10px);
-      padding: 38px 36px;
+      background: rgba(22, 22, 21, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 34px 32px;
       clip-path: polygon(27px 0, 100% 0, 100% calc(100% - 27px), calc(100% - 27px) 100%, 0 100%, 0 27px);
     }
 
-    /* نوار نورانی لبه بالایی باکس تم ۵ */
     .theme-rain-box .hero-inner::before {
       content: "";
       position: absolute;
@@ -156,25 +163,26 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: var(--brand-mint);
-      letter-spacing: 2.5px;
-      margin-bottom: 18px;
-      opacity: 0.85;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      opacity: 0.95;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95), 0 0 10px rgba(93, 248, 216, 0.4);
     }
 
-    /* لوگوی تعاملی وسط صفحه */
     .brand-logo {
-      width: 150px;
+      width: 145px;
       height: auto;
-      margin: 0 auto 18px;
+      margin: 0 auto 16px;
       display: block;
       cursor: pointer;
-      filter: drop-shadow(0 0 18px rgba(246, 36, 119, 0.45));
+      pointer-events: auto;
+      filter: drop-shadow(0 0 22px rgba(29, 29, 27, 0.95)) drop-shadow(0 0 18px rgba(246, 36, 119, 0.45));
       transition: transform 0.25s ease, filter 0.25s ease;
     }
 
     .brand-logo:hover {
       transform: scale(1.06);
-      filter: drop-shadow(0 0 25px rgba(93, 248, 216, 0.7));
+      filter: drop-shadow(0 0 22px rgba(29, 29, 27, 0.95)) drop-shadow(0 0 25px rgba(93, 248, 216, 0.75));
     }
 
     .brand-logo:active {
@@ -186,13 +194,17 @@
       font-weight: 700;
       color: var(--brand-white);
       margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.9);
     }
 
     .sub-hint {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
-      color: rgba(245, 245, 245, 0.65);
-      margin-bottom: 30px;
+      color: rgba(245, 245, 245, 0.85);
+      margin-bottom: 26px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
     }
 
     .tg-btn {
@@ -202,7 +214,7 @@
       gap: 10px;
       background-color: var(--brand-pink);
       color: var(--brand-white);
-      padding: 15px 34px;
+      padding: 14px 32px;
       font-family: 'JetBrains Mono', monospace;
       font-weight: 800;
       font-size: 14px;
@@ -211,6 +223,7 @@
       clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
       box-shadow: 0 0 25px rgba(246, 36, 119, 0.45);
       transition: all 0.25s ease;
+      pointer-events: auto;
     }
 
     .tg-btn:hover {
@@ -221,18 +234,58 @@
     }
 
     .interactive-note {
-      margin-top: 18px;
+      margin-top: 16px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
-      color: rgba(93, 248, 216, 0.65);
+      color: rgba(93, 248, 216, 0.85);
       letter-spacing: 1px;
       line-height: 1.6;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+    }
+
+    /* ریسپانسیو اختصاصی گوشی‌های موبایل و صفحات باریک */
+    @media (max-width: 600px) {
+      .hero-wrapper {
+        padding: 24px 20px;
+        width: 95%;
+      }
+      .brand-logo {
+        width: 115px;
+        margin: 0 auto 12px;
+      }
+      .coming-text {
+        font-size: 1.05rem;
+        margin-bottom: 6px;
+      }
+      .sub-hint {
+        font-size: 10px;
+        margin-bottom: 20px;
+        letter-spacing: 1.5px;
+      }
+      .tg-btn {
+        padding: 13px 26px;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+      .mode-badge {
+        font-size: 10px;
+        margin-bottom: 12px;
+        letter-spacing: 1.5px;
+      }
+      .interactive-note {
+        font-size: 9px;
+        margin-top: 14px;
+        line-height: 1.5;
+      }
+      .theme-rain-box .hero-inner {
+        padding: 26px 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- لایه مخصوص ایده ۲ (اشعه X) -->
+  <!-- لایه مخصوص مود ۲ (اشعه X) -->
   <div class="xray-layer" id="xrayLayer">
     <div style="display:flex; justify-content:space-between;">
       <span>[ SYSTEM: 2077 // CLASSIFIED ]</span>
@@ -245,22 +298,22 @@
     </div>
   </div>
 
-  <!-- کانتینر رندر گرافیک‌ها -->
+  <!-- کانتینر رندر پس‌زمینه‌ها -->
   <div id="bg-stage"></div>
 
-  <!-- محتوای مرکزی -->
+  <!-- محتوای مرکزی اصلی -->
   <main class="hero-wrapper" id="heroBox">
     <div class="hero-inner">
       <div class="mode-badge" id="modeBadge">[ INITIALIZING... ]</div>
       
-      <!-- کلیک روی لوگو تم را به مرحله بعد می‌برد -->
-      <img src="logo.svg" alt="2077 Logo" class="brand-logo" id="logoBtn" title="کلیک برای تغییر تم" />
+      <!-- کلیک یا لمس روی لوگو تم را تغییر می‌دهد -->
+      <img src="logo.svg" alt="2077 Logo" class="brand-logo" id="logoBtn" title="کلیک برای تغییر تم (۱ تا ۲۵)" />
       
       <div class="coming-text">به‌زودی دروازه‌ها باز می‌شوند</div>
       <div class="sub-hint">COMING SOON // 2077</div>
 
-      <!-- لینک مستقیم کانال تلگرام شما -->
-      <a href="https://t.me/Custom2077" target="_blank" rel="noopener noreferrer" class="tg-btn">
+      <!-- دکمه کانال تلگرام -->
+      <a href="https://t.me/Custom2077" target="_blank" rel="noopener noreferrer" class="tg-btn" id="tgBtn">
         TELEGRAM // 2077
       </a>
 
@@ -276,39 +329,72 @@
     const noteEl = document.getElementById('interactiveNote');
     const xrayLayer = document.getElementById('xrayLayer');
     const logoBtn = document.getElementById('logoBtn');
+    const tgBtn = document.getElementById('tgBtn');
 
-    // شروع اولیه با یک عدد تصادفی بین 1 تا 5
-    let currentMode = Math.floor(Math.random() * 5) + 1;
+    // انتخاب رندوم اولیه از بین ۱ تا ۲۵
+    let currentMode = Math.floor(Math.random() * 25) + 1;
     let activeAnimId = null;
-    let cleanupFn = null;
+    let cleanups = [];
 
-    // پاک‌سازی کامل تم قبلی هنگام جابجایی
+    function addCleanup(fn) {
+      if (typeof fn === 'function') cleanups.push(fn);
+    }
+
+    function bindEvent(target, type, listener, options) {
+      target.addEventListener(type, listener, options);
+      cleanups.push(() => target.removeEventListener(type, listener, options));
+    }
+
     function resetEnvironment() {
       if (activeAnimId) {
         cancelAnimationFrame(activeAnimId);
         activeAnimId = null;
       }
-      if (cleanupFn) {
-        cleanupFn();
-        cleanupFn = null;
+      while (cleanups.length > 0) {
+        try {
+          const fn = cleanups.pop();
+          if (typeof fn === 'function') fn();
+        } catch (err) {
+          console.warn('Cleanup error:', err);
+        }
       }
       stage.innerHTML = '';
       xrayLayer.style.display = 'none';
       heroBox.className = 'hero-wrapper';
     }
 
+    function create2DCanvas() {
+      const canvas = document.createElement('canvas');
+      canvas.style.position = 'absolute';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      stage.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      let w = (canvas.width = window.innerWidth);
+      let h = (canvas.height = window.innerHeight);
+      const onResize = () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      };
+      bindEvent(window, 'resize', onResize);
+      return { canvas, ctx, getW: () => w, getH: () => h };
+    }
+
     // ==========================================
-    // ایده ۱: هسته کوانتومی سه‌بعدی (Three.js)
+    // مود ۰۱: هسته کوانتومی سه‌بعدی (Three.js)
     // ==========================================
     function initMode1() {
       modeBadge.textContent = '[ MODE 01 // QUANTUM CORE ]';
-      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE CURSOR TO ORBIT • CLICK BG FOR PULSE ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO ORBIT • TAP FOR PULSE ]';
 
+      const isMobile = window.innerWidth < 600;
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       stage.appendChild(renderer.domElement);
 
       const coreGeo = new THREE.IcosahedronGeometry(2.3, 1);
@@ -323,7 +409,7 @@
       scene.add(ring);
 
       const particlesGeo = new THREE.BufferGeometry();
-      const count = 800;
+      const count = isMobile ? 450 : 800;
       const positions = new Float32Array(count * 3);
       for (let i = 0; i < count * 3; i++) positions[i] = (Math.random() - 0.5) * 16;
       particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -331,32 +417,48 @@
       const particles = new THREE.Points(particlesGeo, particlesMat);
       scene.add(particles);
 
-      camera.position.z = 6.5;
+      camera.position.z = isMobile ? 8.2 : 6.5;
       let mx = 0, my = 0, pulse = 1;
 
       const onMouseMove = e => {
         mx = (e.clientX / window.innerWidth - 0.5) * 2;
         my = (e.clientY / window.innerHeight - 0.5) * 2;
       };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+          my = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+        }
+      };
       const onClick = e => {
-        if (e.target !== logoBtn) pulse = 1.35;
+        if (e.target !== logoBtn && e.target !== tgBtn) pulse = 1.35;
+      };
+      const onTouchStart = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) pulse = 1.35;
       };
       const onResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
+        camera.position.z = window.innerWidth < 600 ? 8.2 : 6.5;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       };
 
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('click', onClick);
-      window.addEventListener('resize', onResize);
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', onClick);
+      bindEvent(window, 'touchstart', onTouchStart, { passive: true });
+      bindEvent(window, 'resize', onResize);
 
-      cleanupFn = () => {
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('click', onClick);
-        window.removeEventListener('resize', onResize);
+      addCleanup(() => {
         renderer.dispose();
-      };
+        renderer.forceContextLoss?.();
+        coreGeo.dispose();
+        coreMat.dispose();
+        ringGeo.dispose();
+        ringMat.dispose();
+        particlesGeo.dispose();
+        particlesMat.dispose();
+      });
 
       function animate() {
         activeAnimId = requestAnimationFrame(animate);
@@ -375,7 +477,7 @@
     }
 
     // ==========================================
-    // ایده ۲: چراغ‌قوه اشعه X (X-Ray Scanner)
+    // مود ۰۲: چراغ‌قوه اشعه X (X-Ray Scanner)
     // ==========================================
     function initMode2() {
       modeBadge.textContent = '[ MODE 02 // X-RAY SCANNER ]';
@@ -388,59 +490,38 @@
       };
       const onMouseMove = e => updateMask(e.clientX, e.clientY);
       const onTouchMove = e => {
-        if (e.touches[0]) updateMask(e.touches[0].clientX, e.touches[0].clientY);
+        if (e.touches && e.touches[0]) updateMask(e.touches[0].clientX, e.touches[0].clientY);
       };
 
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('touchmove', onTouchMove);
-
-      cleanupFn = () => {
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('touchmove', onTouchMove);
-      };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
     }
 
     // ==========================================
-    // ایده ۳: تونل نئونی بی‌پایان (Hyperspace Tunnel)
+    // مود ۰۳: تونل نئونی بی‌پایان (Hyperspace Tunnel)
     // ==========================================
     function initMode3() {
       modeBadge.textContent = '[ MODE 03 // HYPERSPACE TUNNEL ]';
       noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ HOLD CLICK / TOUCH FOR WARP DRIVE ]';
       heroBox.classList.add('theme-glass');
 
-      const canvas = document.createElement('canvas');
-      stage.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-      let w, h, cx, cy;
-      const resize = () => {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        cx = w / 2; cy = h / 2;
-      };
-      resize();
-
+      const { canvas, ctx, getW, getH } = create2DCanvas();
       let speed = 0.014, warp = false;
-      const onDown = e => { if (e.target !== logoBtn) warp = true; };
+      const onDown = e => { if (e.target !== logoBtn && e.target !== tgBtn) warp = true; };
       const onUp = () => warp = false;
 
-      window.addEventListener('resize', resize);
-      window.addEventListener('mousedown', onDown);
-      window.addEventListener('mouseup', onUp);
-      window.addEventListener('touchstart', onDown);
-      window.addEventListener('touchend', onUp);
-
-      cleanupFn = () => {
-        window.removeEventListener('resize', resize);
-        window.removeEventListener('mousedown', onDown);
-        window.removeEventListener('mouseup', onUp);
-        window.removeEventListener('touchstart', onDown);
-        window.removeEventListener('touchend', onUp);
-      };
+      bindEvent(window, 'mousedown', onDown);
+      bindEvent(window, 'mouseup', onUp);
+      bindEvent(window, 'touchstart', onDown, { passive: true });
+      bindEvent(window, 'touchend', onUp);
 
       const rings = Array.from({ length: 26 }, (_, i) => ({ z: i / 26, rot: i * 0.12 }));
 
       function draw() {
         activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
         ctx.fillStyle = warp ? 'rgba(29, 29, 27, 0.28)' : 'rgba(29, 29, 27, 0.45)';
         ctx.fillRect(0, 0, w, h);
 
@@ -468,16 +549,21 @@
     }
 
     // ==========================================
-    // ایده ۴: شبیه‌ساز مایع نئونی (WebGL Shader)
+    // مود ۰۴: شبیه‌ساز مایع نئونی (WebGL Shader)
     // ==========================================
     function initMode4() {
       modeBadge.textContent = '[ MODE 04 // LIQUID PLASMA ]';
-      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE CURSOR TO DISTORT FIELD ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO DISTORT FIELD ]';
       heroBox.classList.add('theme-glass');
 
       const canvas = document.createElement('canvas');
+      canvas.style.position = 'absolute';
+      canvas.style.inset = '0';
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
       stage.appendChild(canvas);
       const gl = canvas.getContext('webgl');
+      if (!gl) return;
 
       const vs = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }`;
       const fs = `
@@ -510,9 +596,11 @@
         gl.compileShader(s);
         return s;
       };
+      const vertShader = createShader(gl.VERTEX_SHADER, vs);
+      const fragShader = createShader(gl.FRAGMENT_SHADER, fs);
       const prog = gl.createProgram();
-      gl.attachShader(prog, createShader(gl.VERTEX_SHADER, vs));
-      gl.attachShader(prog, createShader(gl.FRAGMENT_SHADER, fs));
+      gl.attachShader(prog, vertShader);
+      gl.attachShader(prog, fragShader);
       gl.linkProgram(prog);
       gl.useProgram(prog);
 
@@ -529,11 +617,18 @@
 
       let mx = window.innerWidth / 2, my = window.innerHeight / 2;
       const onMouseMove = e => { mx = e.clientX; my = window.innerHeight - e.clientY; };
-      window.addEventListener('mousemove', onMouseMove);
-
-      cleanupFn = () => {
-        window.removeEventListener('mousemove', onMouseMove);
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = window.innerHeight - e.touches[0].clientY;
+        }
       };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+
+      addCleanup(() => {
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      });
 
       function render(now) {
         activeAnimId = requestAnimationFrame(render);
@@ -551,36 +646,25 @@
     }
 
     // ==========================================
-    // ایده ۵: باران نئونی و برخورد دقیق قطرات به لبه باکس
+    // مود ۰۵: باران نئونی و برخورد دقیق با باکس
     // ==========================================
     function initMode5() {
       modeBadge.textContent = '[ MODE 05 // CYBER RAIN ]';
-      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE CURSOR TO CONTROL WIND ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO CONTROL WIND ]';
       heroBox.classList.add('theme-rain-box');
 
-      const canvas = document.createElement('canvas');
-      stage.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-      let w, h;
-
-      const updateSize = () => {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-      };
-      updateSize();
-
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
       let wind = 1.5;
-      const onMouseMove = e => { wind = ((e.clientX / w) - 0.5) * 6; };
-
-      window.addEventListener('resize', updateSize);
-      window.addEventListener('mousemove', onMouseMove);
-
-      cleanupFn = () => {
-        window.removeEventListener('resize', updateSize);
-        window.removeEventListener('mousemove', onMouseMove);
+      const onMouseMove = e => { wind = ((e.clientX / getW()) - 0.5) * 6; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) wind = ((e.touches[0].clientX / getW()) - 0.5) * 6;
       };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
 
-      const drops = Array.from({ length: 180 }, () => ({
+      const count = isMobile ? 110 : 180;
+      const drops = Array.from({ length: count }, () => ({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
         len: 12 + Math.random() * 18,
@@ -592,8 +676,7 @@
       function createSplash(x, y, color) {
         for (let i = 0; i < 4; i++) {
           splashes.push({
-            x,
-            y,
+            x, y,
             vx: (Math.random() - 0.5) * 4.5,
             vy: -Math.random() * 3.5 - 1,
             life: 1,
@@ -604,9 +687,9 @@
 
       function animate() {
         activeAnimId = requestAnimationFrame(animate);
+        const w = getW(), h = getH();
         ctx.clearRect(0, 0, w, h);
 
-        // خواندن زنده و دقیق مختصات باکس در هر فریم
         const rect = heroBox.getBoundingClientRect();
 
         drops.forEach(d => {
@@ -623,22 +706,18 @@
           d.x += wind;
           d.y += d.speed;
 
-          // محاسبه سطح بالای باکس با در نظر گرفتن پخ ۲۸ پیکسلی گوشه بالا-چپ
           const isInsideHorizontal = tipX >= rect.left && tipX <= rect.right;
           let surfaceY = rect.top;
           if (tipX < rect.left + 28) {
-            // شیب ۴۵ درجه گوشه بالا-چپ
             surfaceY = rect.top + (28 - (tipX - rect.left));
           }
 
-          // برخورد نوک قطره دقیقاً با لبه بالایی باکس
           if (isInsideHorizontal && tipY >= surfaceY && d.y <= surfaceY + 12) {
             createSplash(tipX, surfaceY, d.color);
             d.y = -20;
             d.x = Math.random() * w;
           }
 
-          // برخورد با کف صفحه
           if (d.y > h) {
             if (Math.random() > 0.65) createSplash(d.x, h - 2, d.color);
             d.y = -20;
@@ -664,24 +743,2392 @@
       animate();
     }
 
-    // تابع اجرای تم بر اساس شماره (1 تا 5)
-    function launchMode(mode) {
-      resetEnvironment();
-      if (mode === 1) initMode1();
-      else if (mode === 2) initMode2();
-      else if (mode === 3) initMode3();
-      else if (mode === 4) initMode4();
-      else initMode5();
+    // ==========================================
+    // مود ۰۶: تکینگی سایبری (Cyber Singularity)
+    // ==========================================
+    function initMode6() {
+      modeBadge.textContent = '[ MODE 06 // CYBER SINGULARITY ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO TILT • TAP BG FOR GRAVITY PULSE ]';
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let targetTiltX = 0.35, targetTiltY = 0;
+      let currentTiltX = 0.35, currentTiltY = 0;
+      let pulse = 0;
+
+      const onMouseMove = e => {
+        mx = e.clientX;
+        my = e.clientY;
+        targetTiltX = ((my / getH()) - 0.5) * 1.3;
+        targetTiltY = ((mx / getW()) - 0.5) * 1.5;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+          targetTiltX = ((my / getH()) - 0.5) * 1.3;
+          targetTiltY = ((mx / getW()) - 0.5) * 1.5;
+        }
+      };
+      const onClick = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) pulse = 1.0;
+      };
+      const onTouchStart = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) pulse = 1.0;
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', onClick);
+      bindEvent(window, 'touchstart', onTouchStart, { passive: true });
+
+      const count = isMobile ? 220 : 380;
+      const baseHorizonR = isMobile ? 68 : 82;
+      const particles = Array.from({ length: count }, () => ({
+        r: (baseHorizonR + 15) + Math.random() * (isMobile ? 180 : 260),
+        theta: Math.random() * Math.PI * 2,
+        z: (Math.random() - 0.5) * 35,
+        speed: 0.012 + Math.random() * 0.02,
+        size: 1.2 + Math.random() * 2.2,
+        color: Math.random() > 0.4 ? '#5df8d8' : '#f62477'
+      }));
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        currentTiltX += (targetTiltX - currentTiltX) * 0.05;
+        currentTiltY += (targetTiltY - currentTiltY) * 0.05;
+        pulse *= 0.92;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+
+        // حلقه‌های گرانشی عدسی انیشتین در دوردست
+        for (let i = 1; i <= 3; i++) {
+          ctx.beginPath();
+          ctx.ellipse(0, 0, (isMobile ? 120 : 160) * i + pulse * 45, (isMobile ? 50 : 65 + i * 40) * (0.8 + currentTiltX * 0.4), currentTiltY * 0.4, 0, Math.PI * 2);
+          ctx.strokeStyle = i % 2 === 0 ? 'rgba(93, 248, 216, 0.12)' : 'rgba(246, 36, 119, 0.12)';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+
+        const horizonLimit = baseHorizonR + pulse * 18;
+
+        particles.forEach(p => {
+          p.theta += p.speed * (280 / (p.r + 20));
+          p.r -= (0.45 + pulse * 3) * (180 / (p.r + 25));
+          if (p.r < horizonLimit) {
+            p.r = (isMobile ? 220 : 310) + Math.random() * 70;
+          }
+
+          const cosT = Math.cos(p.theta);
+          const sinT = Math.sin(p.theta);
+
+          const px = p.r * cosT;
+          const py = (p.r * sinT * Math.cos(currentTiltX) - p.z * Math.sin(currentTiltX)) * (0.6 + currentTiltX * 0.25);
+
+          const doppler = (cosT + 1) * 0.5;
+          const alpha = 0.25 + doppler * 0.75;
+
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = alpha;
+          ctx.beginPath();
+          ctx.arc(px, py, p.size * (0.8 + doppler * 0.6), 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+
+        // افق رویداد
+        ctx.beginPath();
+        ctx.arc(0, 0, horizonLimit, 0, Math.PI * 2);
+        ctx.fillStyle = '#141413';
+        ctx.fill();
+
+        // حلقه فوتونی درخشان نئونی دور افق رویداد
+        const photonGrad = ctx.createLinearGradient(-horizonLimit, -horizonLimit, horizonLimit, horizonLimit);
+        photonGrad.addColorStop(0, '#f62477');
+        photonGrad.addColorStop(0.5, '#f5f5f5');
+        photonGrad.addColorStop(1, '#5df8d8');
+        ctx.strokeStyle = photonGrad;
+        ctx.lineWidth = 3 + pulse * 3;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+      draw();
     }
 
-    // کلیک روی لوگو -> رفتن به تم بعدی (و برگشت از 5 به 1)
-    logoBtn.addEventListener('click', (e) => {
+    // ==========================================
+    // مود ۰۷: مارپیچ دی‌ان‌ای سایبرنتیک (Cyber DNA Double Helix)
+    // ==========================================
+    function initMode7() {
+      modeBadge.textContent = '[ MODE 07 // CYBER DNA HELIX ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO TILT • ACCELERATE DATA RUNGS ]';
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let rotSpeed = 0.02;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+
+      let angle = 0;
+      const numRungs = 28;
+      const helixRadius = isMobile ? 125 : 160;
+      const rungSpacing = isMobile ? 24 : 28;
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        const tiltX = ((my / h) - 0.5) * 0.4;
+        const tiltY = ((mx / w) - 0.5) * 0.5;
+        const speedBoost = Math.hypot((mx / w) - 0.5, (my / h) - 0.5) * 0.04;
+        angle += rotSpeed + speedBoost;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+
+        const rungs = [];
+        for (let i = 0; i < numRungs; i++) {
+          const y = (i - numRungs / 2) * rungSpacing;
+          const theta = angle + i * 0.28;
+
+          const x1 = Math.cos(theta) * helixRadius;
+          const z1 = Math.sin(theta) * helixRadius;
+
+          const x2 = Math.cos(theta + Math.PI) * helixRadius;
+          const z2 = Math.sin(theta + Math.PI) * helixRadius;
+
+          const rotX1 = x1 * Math.cos(tiltY) - z1 * Math.sin(tiltY);
+          const rotZ1 = x1 * Math.sin(tiltY) + z1 * Math.cos(tiltY);
+          const rotY1 = y * Math.cos(tiltX) - rotZ1 * Math.sin(tiltX);
+
+          const rotX2 = x2 * Math.cos(tiltY) - z2 * Math.sin(tiltY);
+          const rotZ2 = x2 * Math.sin(tiltY) + z2 * Math.cos(tiltY);
+          const rotY2 = y * Math.cos(tiltX) - rotZ2 * Math.sin(tiltX);
+
+          rungs.push({
+            p1: { x: rotX1, y: rotY1, z: rotZ1 },
+            p2: { x: rotX2, y: rotY2, z: rotZ2 },
+            avgZ: (rotZ1 + rotZ2) / 2,
+            idx: i
+          });
+        }
+
+        rungs.sort((a, b) => a.avgZ - b.avgZ);
+
+        rungs.forEach(rung => {
+          const zScale1 = (rung.p1.z + 300) / 300;
+          const zScale2 = (rung.p2.z + 300) / 300;
+          const alpha = 0.3 + ((rung.avgZ + helixRadius) / (helixRadius * 2)) * 0.65;
+
+          ctx.strokeStyle = `rgba(93, 248, 216, ${alpha * 0.45})`;
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(rung.p1.x, rung.p1.y);
+          ctx.lineTo(rung.p2.x, rung.p2.y);
+          ctx.stroke();
+
+          const pulsePos = (Math.sin(angle * 2 + rung.idx * 0.5) + 1) * 0.5;
+          const pulseX = rung.p1.x + (rung.p2.x - rung.p1.x) * pulsePos;
+          const pulseY = rung.p1.y + (rung.p2.y - rung.p1.y) * pulsePos;
+          ctx.fillStyle = '#f5f5f5';
+          ctx.beginPath();
+          ctx.arc(pulseX, pulseY, 2, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#f62477';
+          ctx.beginPath();
+          ctx.arc(rung.p1.x, rung.p1.y, Math.max(1.5, 3 * zScale1), 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#5df8d8';
+          ctx.beginPath();
+          ctx.arc(rung.p2.x, rung.p2.y, Math.max(1.5, 3 * zScale2), 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.restore();
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۰۸: توری نئونی سینت‌ویو با کوه‌های سه‌بعدی واقعی (Three.js)
+    // ==========================================
+    function initMode8() {
+      modeBadge.textContent = '[ MODE 08 // SYNTHWAVE NEON GRID ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO BANK HORIZON • ENDLESS PERSPECTIVE RUN ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x1d1d1b, 0.012);
+
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 16, isMobile ? 88 : 75);
+      camera.lookAt(0, 10, -50);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      stage.appendChild(renderer.domElement);
+
+      const terrainWidth = 260;
+      const terrainLength = 240;
+      const segX = isMobile ? 48 : 64;
+      const segY = isMobile ? 48 : 64;
+      const canyonWidth = isMobile ? 26 : 32;
+
+      function createTerrainTile(offsetZ) {
+        const geo = new THREE.PlaneGeometry(terrainWidth, terrainLength, segX, segY);
+        geo.rotateX(-Math.PI / 2);
+
+        const pos = geo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const z = pos.getZ(i);
+          const absX = Math.abs(x);
+
+          if (absX > canyonWidth) {
+            const flankDist = (absX - canyonWidth) / (terrainWidth / 2 - canyonWidth);
+            const peakLayer1 = Math.abs(Math.sin(x * 0.14) * Math.cos(z * 0.08)) * 32;
+            const peakLayer2 = Math.abs(Math.sin(x * 0.28 + z * 0.12)) * 16;
+            const peakLayer3 = Math.abs(Math.cos(x * 0.05 + z * 0.04)) * 12;
+            const height = (peakLayer1 + peakLayer2 + peakLayer3) * Math.pow(flankDist, 1.4);
+            pos.setY(i, height);
+          } else {
+            pos.setY(i, 0);
+          }
+        }
+        geo.computeVertexNormals();
+
+        const solidMat = new THREE.MeshBasicMaterial({ color: 0x1d1d1b });
+        const solidMesh = new THREE.Mesh(geo, solidMat);
+
+        const wireMat = new THREE.MeshBasicMaterial({
+          color: 0xf62477,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.65
+        });
+        const wireMesh = new THREE.Mesh(geo, wireMat);
+
+        const group = new THREE.Group();
+        group.add(solidMesh);
+        group.add(wireMesh);
+        group.position.z = offsetZ;
+
+        // کف دره مرکزی با شبکه نئونی نعنایی
+        const valleyGeo = new THREE.PlaneGeometry(canyonWidth * 2, terrainLength, 8, segY);
+        valleyGeo.rotateX(-Math.PI / 2);
+        const valleyMat = new THREE.MeshBasicMaterial({
+          color: 0x5df8d8,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.75
+        });
+        const valleyMesh = new THREE.Mesh(valleyGeo, valleyMat);
+        valleyMesh.position.y = 0.15;
+        group.add(valleyMesh);
+
+        return { group };
+      }
+
+      const tile1 = createTerrainTile(0);
+      const tile2 = createTerrainTile(-terrainLength);
+      scene.add(tile1.group);
+      scene.add(tile2.group);
+
+      let mx = 0, bank = 0;
+      const onMouseMove = e => {
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+        }
+      };
+      const onResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.position.z = window.innerWidth < 600 ? 88 : 75;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'resize', onResize);
+
+      addCleanup(() => {
+        renderer.dispose();
+        renderer.forceContextLoss?.();
+        scene.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+            else obj.material.dispose();
+          }
+        });
+      });
+
+      const speed = 1.15;
+      function animate() {
+        activeAnimId = requestAnimationFrame(animate);
+
+        tile1.group.position.z += speed;
+        tile2.group.position.z += speed;
+
+        if (tile1.group.position.z >= terrainLength) {
+          tile1.group.position.z = tile2.group.position.z - terrainLength;
+        }
+        if (tile2.group.position.z >= terrainLength) {
+          tile2.group.position.z = tile1.group.position.z - terrainLength;
+        }
+
+        bank += (mx * 0.22 - bank) * 0.06;
+        camera.position.x += (mx * 22 - camera.position.x) * 0.05;
+        camera.rotation.z = -bank * 0.35;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    // ==========================================
+    // مود ۰۹: ابرمکعب ۴بعدی تسرکت (Hyper-Cube Tesseract)
+    // ==========================================
+    function initMode9() {
+      modeBadge.textContent = '[ MODE 09 // HYPER-CUBE TESSERACT ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO ROTATE IN 4D • TAP TO EXPAND ]';
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let rotXW = 0, rotYW = 0, rotXY = 0;
+      let expand = 0, vExpand = 0;
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const onClick = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) vExpand = 1.35;
+      };
+      const onTouchStart = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) vExpand = 1.35;
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', onClick);
+      bindEvent(window, 'touchstart', onTouchStart, { passive: true });
+
+      const vertices = [];
+      for (let i = 0; i < 16; i++) {
+        vertices.push([
+          (i & 1) ? 1 : -1,
+          (i & 2) ? 1 : -1,
+          (i & 4) ? 1 : -1,
+          (i & 8) ? 1 : -1
+        ]);
+      }
+
+      const edges = [];
+      for (let i = 0; i < 16; i++) {
+        for (let j = i + 1; j < 16; j++) {
+          const diff = (i ^ j);
+          if (diff === 1 || diff === 2 || diff === 4 || diff === 8) {
+            edges.push([i, j]);
+          }
+        }
+      }
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        rotXW += 0.009 + ((mx / w) - 0.5) * 0.02;
+        rotYW += 0.007 + ((my / h) - 0.5) * 0.02;
+        rotXY += 0.005;
+
+        vExpand += (0 - expand) * 0.08;
+        vExpand *= 0.88;
+        expand += vExpand;
+
+        const scale = Math.min(w, h) * (isMobile ? 1.25 : 1.55);
+
+        const projected = vertices.map(v => {
+          let [x, y, z, w4] = v;
+          w4 += (w4 > 0 ? 1 : -1) * expand * 0.7;
+
+          let cos1 = Math.cos(rotXW), sin1 = Math.sin(rotXW);
+          let x1 = x * cos1 - w4 * sin1;
+          let w1 = x * sin1 + w4 * cos1;
+
+          let cos2 = Math.cos(rotYW), sin2 = Math.sin(rotYW);
+          let y1 = y * cos2 - w1 * sin2;
+          let w2 = y * sin2 + w1 * cos2;
+
+          let cos3 = Math.cos(rotXY), sin3 = Math.sin(rotXY);
+          let x2 = x1 * cos3 - y1 * sin3;
+          let y2 = x1 * sin3 + y1 * cos3;
+
+          const dist4 = 2.8;
+          const k4 = 1 / (dist4 - w2);
+          const x3 = x2 * k4;
+          const y3 = y2 * k4;
+          const z3 = z * k4;
+
+          const dist3 = 3.2;
+          const k3 = 1 / (dist3 - z3);
+
+          return {
+            x: cx + x3 * k3 * scale,
+            y: cy + y3 * k3 * scale,
+            w: w2
+          };
+        });
+
+        edges.forEach(([i, j]) => {
+          const p1 = projected[i];
+          const p2 = projected[j];
+          const avgW = (p1.w + p2.w) * 0.5;
+
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+
+          if (avgW > 0.1) {
+            ctx.strokeStyle = `rgba(246, 36, 119, ${0.45 + avgW * 0.5})`;
+            ctx.lineWidth = 2.2;
+          } else if (avgW < -0.1) {
+            ctx.strokeStyle = `rgba(93, 248, 216, ${0.45 - avgW * 0.5})`;
+            ctx.lineWidth = 1.6;
+          } else {
+            ctx.strokeStyle = 'rgba(245, 245, 245, 0.45)';
+            ctx.lineWidth = 1.2;
+          }
+          ctx.stroke();
+        });
+
+        projected.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.w > 0 ? 3.5 : 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = p.w > 0 ? '#f62477' : '#5df8d8';
+          ctx.fill();
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۰: دریای امواج ذره‌ای (Particle Wave Sea)
+    // ==========================================
+    function initMode10() {
+      modeBadge.textContent = '[ MODE 10 // PARTICLE WAVE SEA ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO CREATE SWELLS • 3D OCEAN ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+
+      const cols = isMobile ? 38 : 52;
+      const rows = isMobile ? 26 : 36;
+      let t = 0;
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h * 0.62;
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.45)';
+        ctx.fillRect(0, 0, w, h);
+
+        t += 0.03;
+        const camPitch = 0.45 + ((my / h) - 0.5) * 0.3;
+        const camYaw = ((mx / w) - 0.5) * 0.4;
+
+        for (let r = 0; r < rows; r++) {
+          const zDepth = (r + 1) / rows;
+          const zScale = 1 / (1 + zDepth * 1.8);
+
+          for (let c = 0; c < cols; c++) {
+            const u = (c / (cols - 1) - 0.5) * 2;
+            const v = (r / (rows - 1));
+
+            let waveY = Math.sin(u * 5 + t) * Math.cos(v * 4 + t * 0.8) * 32
+                      + Math.sin((u + v) * 4 - t) * 16;
+
+            const worldX = u * (w * (isMobile ? 0.85 : 0.7));
+            const worldZ = v * 500;
+            const worldY = waveY;
+
+            const rx = worldX * Math.cos(camYaw) - worldZ * Math.sin(camYaw);
+            const rz = worldX * Math.sin(camYaw) + worldZ * Math.cos(camYaw);
+            const ry = worldY * Math.cos(camPitch) - rz * Math.sin(camPitch);
+
+            const screenX = cx + rx * (0.8 + v * 0.5);
+            const screenY = cy + ry + v * (h * 0.42);
+
+            const distMouse = Math.hypot(screenX - mx, screenY - my);
+            let mouseSwell = 0;
+            if (distMouse < 180) {
+              mouseSwell = (1 - distMouse / 180) * 45;
+            }
+
+            const finalY = screenY - mouseSwell;
+            const elevation = (waveY + mouseSwell) / 60;
+
+            ctx.beginPath();
+            ctx.arc(screenX, finalY, (1.2 + v * 2) * (1 + mouseSwell * 0.02), 0, Math.PI * 2);
+
+            if (elevation > 0.25) {
+              ctx.fillStyle = '#f62477';
+            } else if (elevation > -0.2) {
+              ctx.fillStyle = '#5df8d8';
+            } else {
+              ctx.fillStyle = 'rgba(93, 248, 216, 0.3)';
+            }
+            ctx.fill();
+          }
+        }
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۱: صورت‌فلکی نورونی (Neural Constellation)
+    // ==========================================
+    function initMode11() {
+      modeBadge.textContent = '[ MODE 11 // NEURAL CONSTELLATION ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO BRIDGE SYNAPSES • TAP FOR IMPULSE ]';
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerImpulse = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) {
+          fgNodes.forEach(n => {
+            const dx = n.x - mx, dy = n.y - my;
+            const dist = Math.hypot(dx, dy) || 1;
+            n.vx += (dx / dist) * 9;
+            n.vy += (dy / dist) * 9;
+          });
+        }
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerImpulse);
+      bindEvent(window, 'touchstart', triggerImpulse, { passive: true });
+
+      const bgCount = isMobile ? 30 : 50;
+      const fgCount = isMobile ? 55 : 85;
+
+      const bgNodes = Array.from({ length: bgCount }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: 1.2
+      }));
+
+      const fgNodes = Array.from({ length: fgCount }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 1.4,
+        vy: (Math.random() - 0.5) * 1.4,
+        radius: 2 + Math.random() * 2,
+        color: Math.random() > 0.4 ? '#5df8d8' : '#f62477'
+      }));
+
+      const sparks = Array.from({ length: isMobile ? 18 : 32 }, () => ({
+        src: Math.floor(Math.random() * fgNodes.length),
+        dst: Math.floor(Math.random() * fgNodes.length),
+        progress: Math.random(),
+        speed: 0.018 + Math.random() * 0.025,
+        color: Math.random() > 0.5 ? '#5df8d8' : '#f62477'
+      }));
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        bgNodes.forEach(n => {
+          n.x += n.vx; n.y += n.vy;
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+        });
+        for (let i = 0; i < bgNodes.length; i++) {
+          for (let j = i + 1; j < bgNodes.length; j++) {
+            const d = Math.hypot(bgNodes[i].x - bgNodes[j].x, bgNodes[i].y - bgNodes[j].y);
+            if (d < 90) {
+              ctx.strokeStyle = `rgba(93, 248, 216, ${(1 - d / 90) * 0.15})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(bgNodes[i].x, bgNodes[i].y);
+              ctx.lineTo(bgNodes[j].x, bgNodes[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        fgNodes.forEach(n => {
+          n.x += n.vx; n.y += n.vy;
+          n.vx *= 0.985; n.vy *= 0.985;
+          if (n.x < 0 || n.x > w) n.vx *= -1;
+          if (n.y < 0 || n.y > h) n.vy *= -1;
+        });
+
+        const maxDist = isMobile ? 110 : 135;
+        for (let i = 0; i < fgNodes.length; i++) {
+          for (let j = i + 1; j < fgNodes.length; j++) {
+            const dx = fgNodes[i].x - fgNodes[j].x;
+            const dy = fgNodes[i].y - fgNodes[j].y;
+            const d = Math.hypot(dx, dy);
+            if (d < maxDist) {
+              const alpha = (1 - d / maxDist) * 0.6;
+              ctx.strokeStyle = `rgba(93, 248, 216, ${alpha})`;
+              ctx.lineWidth = 1.1;
+              ctx.beginPath();
+              ctx.moveTo(fgNodes[i].x, fgNodes[i].y);
+              ctx.lineTo(fgNodes[j].x, fgNodes[j].y);
+              ctx.stroke();
+            }
+          }
+
+          const mdx = fgNodes[i].x - mx, mdy = fgNodes[i].y - my;
+          const md = Math.hypot(mdx, mdy);
+          if (md < (isMobile ? 150 : 200)) {
+            const mAlpha = (1 - md / (isMobile ? 150 : 200)) * 0.9;
+            ctx.strokeStyle = `rgba(246, 36, 119, ${mAlpha})`;
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.moveTo(fgNodes[i].x, fgNodes[i].y);
+            ctx.lineTo(mx, my);
+            ctx.stroke();
+
+            fgNodes[i].vx -= (mdx / md) * 0.08;
+            fgNodes[i].vy -= (mdy / md) * 0.08;
+          }
+        }
+
+        sparks.forEach(s => {
+          s.progress += s.speed;
+          if (s.progress >= 1) {
+            s.progress = 0;
+            s.src = s.dst;
+            s.dst = Math.floor(Math.random() * fgNodes.length);
+          }
+          const n1 = fgNodes[s.src], n2 = fgNodes[s.dst];
+          if (Math.hypot(n1.x - n2.x, n1.y - n2.y) < maxDist) {
+            const px = n1.x + (n2.x - n1.x) * s.progress;
+            const py = n1.y + (n2.y - n1.y) * s.progress;
+            ctx.fillStyle = s.color;
+            ctx.beginPath();
+            ctx.arc(px, py, 2.4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+
+        fgNodes.forEach(n => {
+          ctx.fillStyle = n.color;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.fillStyle = '#f62477';
+        ctx.beginPath();
+        ctx.arc(mx, my, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۲: فروسیال مغناطیسی با هاله محیطی (Ferrofluid Swarm Halo)
+    // ==========================================
+    function initMode12() {
+      modeBadge.textContent = '[ MODE 12 // FERROFLUID SWARM ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO REPEL SPIKES • MAGNETIC FIELD ]';
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let shock = 0;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerShock = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) shock = 1.0;
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerShock);
+      bindEvent(window, 'touchstart', triggerShock, { passive: true });
+
+      const numParticles = isMobile ? 260 : 460;
+      const particles = Array.from({ length: numParticles }, (_, i) => {
+        const angle = (i / numParticles) * Math.PI * 2;
+        const baseRadius = (isMobile ? 140 : 180) + Math.random() * (isMobile ? 65 : 85);
+        return {
+          angle,
+          baseRadius,
+          x: window.innerWidth / 2 + Math.cos(angle) * (baseRadius * 1.3),
+          y: window.innerHeight / 2 + Math.sin(angle) * (baseRadius * 0.9),
+          vx: 0,
+          vy: 0,
+          color: Math.random() > 0.4 ? '#5df8d8' : '#f62477'
+        };
+      });
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        shock *= 0.94;
+
+        particles.forEach(p => {
+          p.angle += 0.009 + (shock * 0.03);
+
+          const haloX = cx + (Math.cos(p.angle) + 0.15 * Math.cos(p.angle * 3)) * (p.baseRadius * 1.25);
+          const haloY = cy + Math.sin(p.angle) * (p.baseRadius * 0.85);
+
+          p.vx += (haloX - p.x) * 0.045;
+          p.vy += (haloY - p.y) * 0.045;
+
+          const dx = p.x - mx;
+          const dy = p.y - my;
+          const d = Math.hypot(dx, dy) || 1;
+
+          const repelDist = isMobile ? 170 : 230;
+          if (d < repelDist) {
+            const force = Math.pow((repelDist - d) / repelDist, 2) * 24;
+            p.vx += (dx / d) * force;
+            p.vy += (dy / d) * force;
+          }
+
+          if (shock > 0.05) {
+            p.vx += (Math.random() - 0.5) * shock * 30;
+            p.vy += (Math.random() - 0.5) * shock * 30;
+          }
+
+          p.vx *= 0.87;
+          p.vy *= 0.87;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          const speed = Math.hypot(p.vx, p.vy);
+          ctx.strokeStyle = speed > 3 ? '#f62477' : p.color;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x - p.vx * 2.4, p.y - p.vy * 2.4);
+          ctx.stroke();
+
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۳: جرقه‌های دیجیتال (Pixel Embers)
+    // ==========================================
+    function initMode13() {
+      modeBadge.textContent = '[ MODE 13 // PIXEL EMBERS ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO DEFLECT THERMALS • DIGITAL ASH ]';
+      heroBox.classList.add('theme-rain-box');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerBurst = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) {
+          for (let k = 0; k < 25; k++) {
+            embers.push({
+              x: mx,
+              y: my,
+              size: 2 + Math.random() * 4,
+              speedY: -3 - Math.random() * 5,
+              speedX: (Math.random() - 0.5) * 6,
+              life: 1,
+              decay: 0.015 + Math.random() * 0.02,
+              color: Math.random() > 0.4 ? '#f62477' : '#5df8d8'
+            });
+          }
+        }
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerBurst);
+      bindEvent(window, 'touchstart', triggerBurst, { passive: true });
+
+      const count = isMobile ? 160 : 280;
+      const embers = Array.from({ length: count }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: 2 + Math.floor(Math.random() * 4),
+        speedY: -1.2 - Math.random() * 2.5,
+        speedX: (Math.random() - 0.5) * 0.8,
+        life: Math.random(),
+        decay: 0.005 + Math.random() * 0.008,
+        color: Math.random() > 0.35 ? '#f62477' : (Math.random() > 0.5 ? '#5df8d8' : '#f5f5f5')
+      }));
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        const rect = heroBox.getBoundingClientRect();
+
+        embers.forEach((emb, i) => {
+          emb.y += emb.speedY;
+          emb.x += emb.speedX + Math.sin(emb.y * 0.02) * 0.8;
+          emb.life -= emb.decay;
+
+          if (emb.x > rect.left - 20 && emb.x < rect.right + 20 &&
+              emb.y > rect.top - 20 && emb.y < rect.bottom + 20) {
+            const boxCenterX = (rect.left + rect.right) / 2;
+            emb.speedX += (emb.x < boxCenterX ? -0.8 : 0.8);
+          }
+
+          const dmx = emb.x - mx, dmy = emb.y - my;
+          const dm = Math.hypot(dmx, dmy);
+          if (dm < 120) {
+            emb.speedX += (dmx / dm) * 0.6;
+            emb.speedY -= 0.3;
+          }
+
+          if (emb.y < -10 || emb.life <= 0) {
+            emb.x = Math.random() * w;
+            emb.y = h + 10;
+            emb.life = 1;
+            emb.speedX = (Math.random() - 0.5) * 0.8;
+            emb.speedY = -1.2 - Math.random() * 2.5;
+          }
+
+          ctx.fillStyle = emb.color;
+          ctx.globalAlpha = Math.max(0, emb.life);
+          ctx.fillRect(emb.x, emb.y, emb.size, emb.size);
+        });
+        ctx.globalAlpha = 1;
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۴: صاعقه‌های تسلا (Tesla Plasma Arcs)
+    // ==========================================
+    function initMode14() {
+      modeBadge.textContent = '[ MODE 14 // TESLA PLASMA ARCS ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO ATTRACT LIGHTNING • HIGH VOLTAGE ]';
+      heroBox.classList.add('theme-glass');
+
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let superDischarge = 0;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerDischarge = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) superDischarge = 15;
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerDischarge);
+      bindEvent(window, 'touchstart', triggerDischarge, { passive: true });
+
+      function getLightningSegments(x1, y1, x2, y2, displace, depth) {
+        if (depth <= 0) return [{ x1, y1, x2, y2 }];
+        const midX = (x1 + x2) / 2 + (Math.random() - 0.5) * displace;
+        const midY = (y1 + y2) / 2 + (Math.random() - 0.5) * displace;
+        return [
+          ...getLightningSegments(x1, y1, midX, midY, displace * 0.55, depth - 1),
+          ...getLightningSegments(midX, midY, x2, y2, displace * 0.55, depth - 1)
+        ];
+      }
+
+      function drawBolt(segments, colorOuter, colorInner, width) {
+        ctx.strokeStyle = colorOuter;
+        ctx.lineWidth = width * 2.4;
+        ctx.beginPath();
+        segments.forEach(s => { ctx.moveTo(s.x1, s.y1); ctx.lineTo(s.x2, s.y2); });
+        ctx.stroke();
+
+        ctx.strokeStyle = colorInner;
+        ctx.lineWidth = width;
+        ctx.beginPath();
+        segments.forEach(s => { ctx.moveTo(s.x1, s.y1); ctx.lineTo(s.x2, s.y2); });
+        ctx.stroke();
+
+        ctx.strokeStyle = '#f5f5f5';
+        ctx.lineWidth = width * 0.4;
+        ctx.beginPath();
+        segments.forEach(s => { ctx.moveTo(s.x1, s.y1); ctx.lineTo(s.x2, s.y2); });
+        ctx.stroke();
+      }
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.48)';
+        ctx.fillRect(0, 0, w, h);
+
+        const rect = heroBox.getBoundingClientRect();
+        const boxCorners = [
+          { x: rect.left, y: rect.top + 28 },
+          { x: rect.right, y: rect.top },
+          { x: rect.right, y: rect.bottom - 28 },
+          { x: rect.left, y: rect.bottom }
+        ];
+
+        const corner = boxCorners[Math.floor(Math.random() * boxCorners.length)];
+        const bolt1 = getLightningSegments(corner.x, corner.y, mx, my, 70, 5);
+        drawBolt(bolt1, 'rgba(246, 36, 119, 0.45)', '#5df8d8', 1.8);
+
+        if (Math.random() > 0.3) {
+          const sx = Math.random() > 0.5 ? 0 : w;
+          const sy = Math.random() * h;
+          const tx = rect.left + Math.random() * rect.width;
+          const ty = rect.top + Math.random() * rect.height;
+          const bolt2 = getLightningSegments(sx, sy, tx, ty, 90, 5);
+          drawBolt(bolt2, 'rgba(93, 248, 216, 0.35)', '#f62477', 1.4);
+        }
+
+        if (superDischarge > 0) {
+          superDischarge--;
+          for (let b = 0; b < 4; b++) {
+            const bc = boxCorners[b];
+            const superBolt = getLightningSegments(bc.x, bc.y, mx, my, 110, 6);
+            drawBolt(superBolt, '#f62477', '#5df8d8', 3);
+          }
+        }
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۵: مه حجمی سایبرپانکی (Volumetric Cyber Fog)
+    // ==========================================
+    function initMode15() {
+      modeBadge.textContent = '[ MODE 15 // VOLUMETRIC CYBER FOG ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO SHIFT LIGHT & VAPOR ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+
+      const numBlobs = isMobile ? 22 : 38;
+      const blobs = Array.from({ length: numBlobs }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: (isMobile ? 100 : 140) + Math.random() * (isMobile ? 140 : 220),
+        phase: Math.random() * Math.PI * 2
+      }));
+
+      const motes = Array.from({ length: isMobile ? 35 : 60 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -0.3 - Math.random() * 0.5,
+        size: 1 + Math.random() * 2.2
+      }));
+
+      let t = 0;
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        t += 0.015;
+
+        ctx.fillStyle = '#1d1d1b';
+        ctx.fillRect(0, 0, w, h);
+
+        const lightPinkX = w * 0.28 + Math.sin(t * 0.8) * 160;
+        const lightPinkY = h * 0.45 + Math.cos(t * 0.6) * 110;
+        const lightMintX = w * 0.72 + Math.cos(t * 0.7) * 160;
+        const lightMintY = h * 0.55 + Math.sin(t * 0.9) * 110;
+
+        const gradP = ctx.createRadialGradient(lightPinkX, lightPinkY, 20, lightPinkX, lightPinkY, isMobile ? 260 : 380);
+        gradP.addColorStop(0, 'rgba(246, 36, 119, 0.35)');
+        gradP.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradP;
+        ctx.fillRect(0, 0, w, h);
+
+        const gradM = ctx.createRadialGradient(lightMintX, lightMintY, 20, lightMintX, lightMintY, isMobile ? 260 : 380);
+        gradM.addColorStop(0, 'rgba(93, 248, 216, 0.3)');
+        gradM.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradM;
+        ctx.fillRect(0, 0, w, h);
+
+        const gradMouse = ctx.createRadialGradient(mx, my, 10, mx, my, isMobile ? 180 : 260);
+        gradMouse.addColorStop(0, 'rgba(245, 245, 245, 0.22)');
+        gradMouse.addColorStop(0.5, 'rgba(93, 248, 216, 0.15)');
+        gradMouse.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradMouse;
+        ctx.fillRect(0, 0, w, h);
+
+        blobs.forEach(b => {
+          b.x += b.vx;
+          b.y += b.vy;
+          b.phase += 0.01;
+          const currentR = b.radius + Math.sin(b.phase) * 20;
+
+          if (b.x < -currentR) b.x = w + currentR;
+          if (b.x > w + currentR) b.x = -currentR;
+          if (b.y < -currentR) b.y = h + currentR;
+          if (b.y > h + currentR) b.y = -currentR;
+
+          const fogGrad = ctx.createRadialGradient(b.x, b.y, 10, b.x, b.y, currentR);
+          fogGrad.addColorStop(0, 'rgba(29, 29, 27, 0.35)');
+          fogGrad.addColorStop(0.7, 'rgba(24, 24, 22, 0.18)');
+          fogGrad.addColorStop(1, 'transparent');
+
+          ctx.fillStyle = fogGrad;
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, currentR, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.fillStyle = '#f5f5f5';
+        motes.forEach(m => {
+          m.x += m.vx;
+          m.y += m.vy;
+          if (m.y < 0) { m.y = h; m.x = Math.random() * w; }
+          const distM = Math.hypot(m.x - mx, m.y - my);
+          const alpha = distM < 200 ? 0.8 : 0.25;
+          ctx.globalAlpha = alpha;
+          ctx.fillRect(m.x, m.y, m.size, m.size);
+        });
+        ctx.globalAlpha = 1;
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۶: باران داده ماتریسی ۲۰۷۷ (2077 Data Matrix)
+    // ==========================================
+    function initMode16() {
+      modeBadge.textContent = '[ MODE 16 // 2077 DATA MATRIX ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO DISTURB CODE STREAM ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerCascade = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) {
+          columns.forEach(col => { col.y = (col.y + Math.random() * 200) % getH(); });
+        }
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerCascade);
+      bindEvent(window, 'touchstart', triggerCascade, { passive: true });
+
+      const glyphs = ['2','0','7','7','0','1','A','B','C','D','E','F','X','Y','Z','ﾊ','ﾐ','ﾋ','ｰ','ｳ','ｼ','ﾅ','ﾓ','ｸ','*','#','+','/'];
+      const fontSize = isMobile ? 14 : 16;
+      let columns = [];
+
+      function setupColumns() {
+        const numCols = Math.floor(getW() / fontSize);
+        columns = Array.from({ length: numCols }, (_, i) => ({
+          x: i * fontSize,
+          y: Math.random() * getH(),
+          speed: 2 + Math.random() * 4.5,
+          length: 12 + Math.floor(Math.random() * 18),
+          chars: Array.from({ length: 30 }, () => glyphs[Math.floor(Math.random() * glyphs.length)])
+        }));
+      }
+      setupColumns();
+      bindEvent(window, 'resize', setupColumns);
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.28)';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.font = `${fontSize - 2}px "JetBrains Mono", monospace`;
+
+        columns.forEach(col => {
+          col.y += col.speed;
+          if (col.y - col.length * fontSize > h) {
+            col.y = 0;
+            col.speed = 2 + Math.random() * 4.5;
+          }
+
+          if (Math.random() > 0.85) {
+            const idx = Math.floor(Math.random() * col.chars.length);
+            col.chars[idx] = glyphs[Math.floor(Math.random() * glyphs.length)];
+          }
+
+          for (let j = 0; j < col.length; j++) {
+            const charY = col.y - j * fontSize;
+            if (charY < -fontSize || charY > h) continue;
+
+            const distMouse = Math.hypot(col.x - mx, charY - my);
+            let displayChar = col.chars[j % col.chars.length];
+
+            if (distMouse < (isMobile ? 80 : 110)) {
+              displayChar = ['2','0','7','7'][j % 4];
+            }
+
+            if (j === 0) {
+              ctx.fillStyle = Math.random() > 0.5 ? '#f62477' : '#f5f5f5';
+              ctx.fillText(displayChar, col.x, charY);
+            } else {
+              const alpha = (1 - j / col.length) * 0.9;
+              ctx.fillStyle = `rgba(93, 248, 216, ${alpha})`;
+              ctx.fillText(displayChar, col.x, charY);
+            }
+          }
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۷: مونولیت‌های سایبری سه‌بعدی شناور (Three.js Cyber Monoliths)
+    // ==========================================
+    function initMode17() {
+      modeBadge.textContent = '[ MODE 17 // CYBER MONOLITHS ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE FOR 3D PARALLAX • OBSIDIAN MONOLITHS ]';
+
+      const isMobile = window.innerWidth < 600;
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x1d1d1b, 0.015);
+
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, isMobile ? 38 : 32);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      stage.appendChild(renderer.domElement);
+
+      const numMonoliths = isMobile ? 14 : 22;
+      const monolithGroup = new THREE.Group();
+      scene.add(monolithGroup);
+
+      const monoliths = [];
+      for (let i = 0; i < numMonoliths; i++) {
+        const mw = 1.6 + Math.random() * 1.4;
+        const mh = 6 + Math.random() * 10;
+        const md = 1.6 + Math.random() * 1.4;
+
+        const boxGeo = new THREE.BoxGeometry(mw, mh, md);
+        const edgesGeo = new THREE.EdgesGeometry(boxGeo);
+
+        const solidMat = new THREE.MeshBasicMaterial({ color: 0x141413 });
+        const solidMesh = new THREE.Mesh(boxGeo, solidMat);
+
+        const isPink = i % 2 === 0;
+        const edgeColor = isPink ? 0xf62477 : 0x5df8d8;
+        const edgeMat = new THREE.LineBasicMaterial({
+          color: edgeColor,
+          linewidth: 2,
+          transparent: true,
+          opacity: 0.85
+        });
+        const edgeMesh = new THREE.LineSegments(edgesGeo, edgeMat);
+
+        const group = new THREE.Group();
+        group.add(solidMesh);
+        group.add(edgeMesh);
+
+        // توزیع اطراف کادر مرکزی
+        const angle = (i / numMonoliths) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+        const radX = (isMobile ? 12 : 18) + Math.random() * (isMobile ? 14 : 20);
+        const radY = (isMobile ? 14 : 12) + Math.random() * (isMobile ? 12 : 16);
+
+        group.position.x = Math.cos(angle) * radX;
+        group.position.y = Math.sin(angle) * radY;
+        group.position.z = -15 + (Math.random() - 0.5) * 25;
+
+        group.rotation.x = (Math.random() - 0.5) * 0.4;
+        group.rotation.y = (Math.random() - 0.5) * 0.6;
+        group.rotation.z = (Math.random() - 0.5) * 0.2;
+
+        monolithGroup.add(group);
+        monoliths.push({
+          group,
+          baseY: group.position.y,
+          speed: 0.01 + Math.random() * 0.015,
+          phase: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.008
+        });
+      }
+
+      // ذرات داده شناور در فضا
+      const pCount = isMobile ? 120 : 250;
+      const pGeo = new THREE.BufferGeometry();
+      const pPos = new Float32Array(pCount * 3);
+      for (let i = 0; i < pCount * 3; i += 3) {
+        pPos[i] = (Math.random() - 0.5) * 60;
+        pPos[i + 1] = (Math.random() - 0.5) * 45;
+        pPos[i + 2] = -30 + Math.random() * 50;
+      }
+      pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+      const pMat = new THREE.PointsMaterial({ size: 0.12, color: 0x5df8d8, transparent: true, opacity: 0.6 });
+      const pMesh = new THREE.Points(pGeo, pMat);
+      scene.add(pMesh);
+
+      let mx = 0, my = 0;
+      const onMouseMove = e => {
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+          my = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+        }
+      };
+      const onResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.position.z = window.innerWidth < 600 ? 38 : 32;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'resize', onResize);
+
+      addCleanup(() => {
+        renderer.dispose();
+        renderer.forceContextLoss?.();
+        scene.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+            else obj.material.dispose();
+          }
+        });
+      });
+
+      function animate() {
+        activeAnimId = requestAnimationFrame(animate);
+
+        monoliths.forEach(m => {
+          m.phase += m.speed;
+          m.group.position.y = m.baseY + Math.sin(m.phase) * 1.5;
+          m.group.rotation.y += m.rotSpeed;
+        });
+
+        // پارالاکس نرم با مکان‌نما یا لمس
+        camera.position.x += (mx * 6 - camera.position.x) * 0.05;
+        camera.position.y += (-my * 5 - camera.position.y) * 0.05;
+        camera.lookAt(0, 0, -10);
+
+        pMesh.rotation.y += 0.001;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    // ==========================================
+    // مود ۱۸: نویز تلویزیون و سیگنال آنالوگ (CRT Glitch & VHS Signal)
+    // ==========================================
+    function initMode18() {
+      modeBadge.textContent = '[ MODE 18 // CRT GLITCH & VHS SIGNAL ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO GLITCH • TAP TO V-HOLD ]';
+      heroBox.classList.add('theme-glass');
+
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let glitchBurst = 0;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerGlitch = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) glitchBurst = 25;
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerGlitch);
+      bindEvent(window, 'touchstart', triggerGlitch, { passive: true });
+
+      let vhsY = 0;
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+
+        ctx.fillStyle = '#1d1d1b';
+        ctx.fillRect(0, 0, w, h);
+
+        if (glitchBurst > 0) glitchBurst--;
+
+        const rgbOffset = Math.sin(Date.now() * 0.01) * 3 + ((mx / w) - 0.5) * 12 + (glitchBurst > 0 ? 15 : 0);
+        vhsY = (vhsY + 1.8) % h;
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+        for (let y = 0; y < h; y += 4) {
+          ctx.fillRect(0, y, w, 2);
+        }
+
+        ctx.fillStyle = 'rgba(93, 248, 216, 0.08)';
+        ctx.fillRect(0, vhsY, w, 32);
+
+        ctx.font = '13px "JetBrains Mono", monospace';
+
+        ctx.fillStyle = 'rgba(246, 36, 119, 0.7)';
+        ctx.fillText('SIGNAL: LOCKED // 2077', 30 - rgbOffset, 42);
+        ctx.fillText('PLAY ▶ 00:20:77', w - 170 - rgbOffset, 42);
+        ctx.fillText('REC ● AUTO-TRACK', 30 - rgbOffset, h - 30);
+
+        ctx.fillStyle = 'rgba(93, 248, 216, 0.75)';
+        ctx.fillText('SIGNAL: LOCKED // 2077', 30 + rgbOffset, 42);
+        ctx.fillText('PLAY ▶ 00:20:77', w - 170 + rgbOffset, 42);
+        ctx.fillText('REC ● AUTO-TRACK', 30 + rgbOffset, h - 30);
+
+        ctx.fillStyle = '#f5f5f5';
+        ctx.fillText('SIGNAL: LOCKED // 2077', 30, 42);
+        ctx.fillText('PLAY ▶ 00:20:77', w - 170, 42);
+        ctx.fillText('REC ● AUTO-TRACK', 30, h - 30);
+
+        if (Math.random() > 0.65 || glitchBurst > 0) {
+          const tearY = Math.random() * h;
+          const tearH = 4 + Math.random() * 12;
+          ctx.fillStyle = Math.random() > 0.5 ? 'rgba(246, 36, 119, 0.25)' : 'rgba(93, 248, 216, 0.25)';
+          ctx.fillRect(0, tearY, w, tearH);
+        }
+
+        const crtVignette = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.45, w / 2, h / 2, Math.min(w, h) * 0.85);
+        crtVignette.addColorStop(0, 'transparent');
+        crtVignette.addColorStop(1, 'rgba(10, 10, 9, 0.75)');
+        ctx.fillStyle = crtVignette;
+        ctx.fillRect(0, 0, w, h);
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۱۹: مانیتور ضربان قلب سایبری (Cyber Heartbeat ECG)
+    // ==========================================
+    function initMode19() {
+      modeBadge.textContent = '[ MODE 19 // CYBER HEARTBEAT ECG ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ HOVER / TAP TELEGRAM TO ACCELERATE BIOMETRICS ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+
+      let sweepX = 0;
+      let phase = 0;
+      const historyPoints = [];
+
+      function getECGValue(p) {
+        const norm = p % 1;
+        if (norm < 0.12) return 0;
+        if (norm < 0.20) return Math.sin((norm - 0.12) / 0.08 * Math.PI) * 0.18;
+        if (norm < 0.28) return 0;
+        if (norm < 0.31) return -((norm - 0.28) / 0.03) * 0.22;
+        if (norm < 0.35) return ((norm - 0.31) / 0.04) * 1.5;
+        if (norm < 0.39) return 1.5 - ((norm - 0.35) / 0.04) * 1.85;
+        if (norm < 0.44) return -0.35 + ((norm - 0.39) / 0.05) * 0.35;
+        if (norm < 0.52) return 0;
+        if (norm < 0.65) return Math.sin((norm - 0.52) / 0.13 * Math.PI) * 0.35;
+        return 0;
+      }
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cy = h * 0.5;
+
+        const tgRect = tgBtn.getBoundingClientRect();
+        const distToTg = Math.hypot(mx - (tgRect.left + tgRect.width / 2), my - (tgRect.top + tgRect.height / 2));
+        const isNearTg = distToTg < (isMobile ? 130 : 160);
+
+        const bpm = isNearTg ? 165 : 72;
+        const speedPhase = isNearTg ? 0.045 : 0.018;
+        const color = isNearTg ? '#f62477' : '#5df8d8';
+        const sweepSpeed = isNearTg ? (isMobile ? 4.5 : 5.5) : (isMobile ? 2.8 : 3.5);
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.32)';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = 'rgba(93, 248, 216, 0.06)';
+        ctx.lineWidth = 1;
+        const gridStep = isMobile ? 28 : 35;
+        for (let x = 0; x < w; x += gridStep) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y < h; y += gridStep) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        ctx.strokeStyle = 'rgba(93, 248, 216, 0.15)';
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+
+        phase += speedPhase;
+        const ecgAmplitude = isNearTg ? (isMobile ? 90 : 120) : (isMobile ? 55 : 75);
+        const ecgVal = getECGValue(phase) * ecgAmplitude;
+        sweepX = (sweepX + sweepSpeed);
+        if (sweepX > w) {
+          sweepX = 0;
+          historyPoints.length = 0;
+        }
+
+        historyPoints.push({ x: sweepX, y: cy - ecgVal, color });
+        if (historyPoints.length > w) historyPoints.shift();
+
+        ctx.lineWidth = isNearTg ? 2.5 : 2;
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        for (let i = 0; i < historyPoints.length; i++) {
+          const pt = historyPoints[i];
+          if (i === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = '#f5f5f5';
+        ctx.beginPath();
+        ctx.arc(sweepX, cy - ecgVal, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = '11px "JetBrains Mono", monospace';
+        ctx.fillStyle = color;
+        ctx.fillText(`HR: ${bpm} BPM`, 25, 38);
+        ctx.fillText(`SPO2: ${isNearTg ? '96%' : '99%'}`, 125, 38);
+        ctx.fillText(`STATUS: ${isNearTg ? 'TACHYCARDIA // TG LINK' : 'NOMINAL'}`, isMobile ? 25 : 225, isMobile ? 54 : 38);
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۲۰: سپر دفاعی لانه‌زنبوری (Hexagon Honeycomb Shield)
+    // ==========================================
+    function initMode20() {
+      modeBadge.textContent = '[ MODE 20 // HEXAGON HONEYCOMB SHIELD ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO ENERGIZE • TAP FOR DEFENSE WAVE ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let shockwaveR = 0, shockwaveActive = false;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerWave = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) {
+          shockwaveR = 10;
+          shockwaveActive = true;
+        }
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerWave);
+      bindEvent(window, 'touchstart', triggerWave, { passive: true });
+
+      const R = isMobile ? 26 : 32;
+      const dx = R * Math.sqrt(3);
+      const dy = R * 1.5;
+      let cells = [];
+
+      function setupGrid() {
+        cells = [];
+        const w = getW(), h = getH();
+        const cols = Math.ceil(w / dx) + 2;
+        const rows = Math.ceil(h / dy) + 2;
+
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const x = c * dx + (r % 2 === 1 ? dx / 2 : 0);
+            const y = r * dy;
+            cells.push({ x, y, energy: 0, color: (r + c) % 3 === 0 ? '#f62477' : '#5df8d8' });
+          }
+        }
+      }
+      setupGrid();
+      bindEvent(window, 'resize', setupGrid);
+
+      function drawHex(x, y, radius) {
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i - Math.PI / 6;
+          const hx = x + radius * Math.cos(angle);
+          const hy = y + radius * Math.sin(angle);
+          if (i === 0) ctx.moveTo(hx, hy);
+          else ctx.lineTo(hx, hy);
+        }
+        ctx.closePath();
+      }
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+
+        ctx.fillStyle = '#1d1d1b';
+        ctx.fillRect(0, 0, w, h);
+
+        if (shockwaveActive) {
+          shockwaveR += 14;
+          if (shockwaveR > Math.max(w, h) * 1.2) shockwaveActive = false;
+        }
+
+        cells.forEach(cell => {
+          const distToMouse = Math.hypot(cell.x - mx, cell.y - my);
+          if (distToMouse < (isMobile ? 85 : 110)) {
+            cell.energy = Math.max(cell.energy, 1 - distToMouse / (isMobile ? 85 : 110));
+          }
+
+          if (shockwaveActive) {
+            const distWave = Math.abs(distToMouse - shockwaveR);
+            if (distWave < 35) {
+              cell.energy = Math.max(cell.energy, 1 - distWave / 35);
+            }
+          }
+
+          cell.energy *= 0.94;
+
+          drawHex(cell.x, cell.y, R - 2);
+
+          if (cell.energy > 0.05) {
+            ctx.fillStyle = cell.color === '#f62477'
+              ? `rgba(246, 36, 119, ${cell.energy * 0.35})`
+              : `rgba(93, 248, 216, ${cell.energy * 0.35})`;
+            ctx.fill();
+
+            ctx.strokeStyle = cell.color;
+            ctx.lineWidth = 1 + cell.energy * 2.2;
+            ctx.stroke();
+          } else {
+            ctx.strokeStyle = 'rgba(93, 248, 216, 0.07)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۲۱: کرم‌چاله ارگانیک (Organic Wormhole)
+    // ==========================================
+    function initMode21() {
+      modeBadge.textContent = '[ MODE 21 // ORGANIC WORMHOLE ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO STEER • HOLD TO WARP ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let targetSteerX = 0, targetSteerY = 0;
+      let steerX = 0, steerY = 0;
+      let warp = false;
+
+      const onMouseMove = e => {
+        mx = e.clientX;
+        my = e.clientY;
+        targetSteerX = ((mx / getW()) - 0.5) * 180;
+        targetSteerY = ((my / getH()) - 0.5) * 140;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+          targetSteerX = ((mx / getW()) - 0.5) * 180;
+          targetSteerY = ((my / getH()) - 0.5) * 140;
+        }
+      };
+      const onDown = e => { if (e.target !== logoBtn && e.target !== tgBtn) warp = true; };
+      const onUp = () => warp = false;
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'mousedown', onDown);
+      bindEvent(window, 'mouseup', onUp);
+      bindEvent(window, 'touchstart', onDown, { passive: true });
+      bindEvent(window, 'touchend', onUp);
+
+      const numRings = isMobile ? 24 : 32;
+      const rings = Array.from({ length: numRings }, (_, i) => ({
+        z: i / numRings,
+        rot: i * 0.18
+      }));
+      let t = 0;
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = warp ? 'rgba(29, 29, 27, 0.28)' : 'rgba(29, 29, 27, 0.45)';
+        ctx.fillRect(0, 0, w, h);
+
+        t += warp ? 0.05 : 0.02;
+        steerX += (targetSteerX - steerX) * 0.05;
+        steerY += (targetSteerY - steerY) * 0.05;
+
+        const speed = warp ? 0.035 : 0.012;
+
+        rings.forEach((r, idx) => {
+          r.z -= speed;
+          if (r.z <= 0.02) r.z = 1;
+          r.rot += 0.005;
+
+          const depth = r.z;
+          const scale = 1 / (depth * 2.2 + 0.1);
+          const ringR = Math.min(w, h) * (isMobile ? 0.24 : 0.28) * scale;
+          const ringCenterX = cx + steerX * (1 - depth);
+          const ringCenterY = cy + steerY * (1 - depth);
+          const alpha = (1 - depth) * 0.85;
+
+          ctx.save();
+          ctx.translate(ringCenterX, ringCenterY);
+          ctx.rotate(r.rot);
+
+          ctx.beginPath();
+          const steps = isMobile ? 40 : 60;
+          for (let s = 0; s <= steps; s++) {
+            const theta = (s / steps) * Math.PI * 2;
+            const wave = Math.sin(theta * 5 + t * 2 + depth * 6) * 0.15
+                       + Math.cos(theta * 3 - t) * 0.1;
+            const rad = ringR * (1 + wave);
+            const px = Math.cos(theta) * rad;
+            const py = Math.sin(theta) * rad;
+            if (s === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+
+          ctx.strokeStyle = idx % 2 === 0
+            ? `rgba(246, 36, 119, ${alpha})`
+            : `rgba(93, 248, 216, ${alpha})`;
+          ctx.lineWidth = warp ? 2.5 : 1.6;
+          ctx.stroke();
+
+          ctx.restore();
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۲۲: روبان‌های انرژی سه‌بعدی ورتکس (Three.js 3D Energy Ribbons)
+    // ==========================================
+    function initMode22() {
+      modeBadge.textContent = '[ MODE 22 // 3D ENERGY RIBBONS ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO WEAVE ENERGY RIBBONS • VORTEX FLOW ]';
+
+      const isMobile = window.innerWidth < 600;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = isMobile ? 58 : 48;
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      stage.appendChild(renderer.domElement);
+
+      const numRibbons = isMobile ? 5 : 8;
+      const pointsPerRibbon = isMobile ? 80 : 120;
+      const ribbonObjects = [];
+
+      for (let r = 0; r < numRibbons; r++) {
+        const isPink = r % 2 === 0;
+        const color = isPink ? 0xf62477 : 0x5df8d8;
+
+        const positions = new Float32Array(pointsPerRibbon * 3);
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const mat = new THREE.LineBasicMaterial({
+          color,
+          linewidth: isMobile ? 1.5 : 2.5,
+          transparent: true,
+          opacity: 0.85,
+          blending: THREE.AdditiveBlending
+        });
+
+        const line = new THREE.Line(geo, mat);
+        scene.add(line);
+
+        ribbonObjects.push({
+          line,
+          geo,
+          positions,
+          freqX: 0.7 + r * 0.15,
+          freqY: 0.9 + r * 0.12,
+          freqZ: 0.5 + r * 0.18,
+          phase: r * (Math.PI * 2 / numRibbons),
+          radX: (isMobile ? 16 : 24) + (r % 3) * 4,
+          radY: (isMobile ? 18 : 22) + (r % 2) * 5,
+          radZ: 14 + r * 3
+        });
+      }
+
+      // ذرات جرقه نور در امتداد روبان‌ها
+      const sparkCount = isMobile ? 60 : 120;
+      const sparkGeo = new THREE.BufferGeometry();
+      const sparkPos = new Float32Array(sparkCount * 3);
+      for (let i = 0; i < sparkCount * 3; i += 3) {
+        sparkPos[i] = (Math.random() - 0.5) * 50;
+        sparkPos[i + 1] = (Math.random() - 0.5) * 40;
+        sparkPos[i + 2] = (Math.random() - 0.5) * 30;
+      }
+      sparkGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
+      const sparkMat = new THREE.PointsMaterial({ size: 0.22, color: 0xf5f5f5, transparent: true, opacity: 0.75 });
+      const sparkMesh = new THREE.Points(sparkGeo, sparkMat);
+      scene.add(sparkMesh);
+
+      let mx = 0, my = 0;
+      const onMouseMove = e => {
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+          my = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+        }
+      };
+      const onResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.position.z = window.innerWidth < 600 ? 58 : 48;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'resize', onResize);
+
+      addCleanup(() => {
+        renderer.dispose();
+        renderer.forceContextLoss?.();
+        scene.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+            else obj.material.dispose();
+          }
+        });
+      });
+
+      let time = 0;
+      function animate() {
+        activeAnimId = requestAnimationFrame(animate);
+        time += 0.016;
+
+        ribbonObjects.forEach((rb, idx) => {
+          const pos = rb.positions;
+          for (let i = 0; i < pointsPerRibbon; i++) {
+            const tParam = time * 1.5 - i * 0.04;
+            const x = Math.sin(tParam * rb.freqX + rb.phase) * rb.radX + mx * 8;
+            const y = Math.cos(tParam * rb.freqY + rb.phase) * rb.radY - my * 8;
+            const z = Math.sin(tParam * rb.freqZ + rb.phase * 2) * rb.radZ;
+
+            pos[i * 3] = x;
+            pos[i * 3 + 1] = y;
+            pos[i * 3 + 2] = z;
+          }
+          rb.geo.attributes.position.needsUpdate = true;
+        });
+
+        camera.position.x += (mx * 8 - camera.position.x) * 0.04;
+        camera.position.y += (-my * 6 - camera.position.y) * 0.04;
+        camera.lookAt(0, 0, 0);
+
+        sparkMesh.rotation.y += 0.003;
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    // ==========================================
+    // مود ۲۳: شکست نور در منشور سایبری (Cyber Prism Refraction)
+    // ==========================================
+    function initMode23() {
+      modeBadge.textContent = '[ MODE 23 // CYBER PRISM REFRACTION ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE FOR 3D PARALLAX • GLASS SHARDS ]';
+      heroBox.classList.add('theme-glass');
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let spinBurst = 0;
+
+      const onMouseMove = e => { mx = e.clientX; my = e.clientY; };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+        }
+      };
+      const triggerSpin = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) spinBurst = 2.0;
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerSpin);
+      bindEvent(window, 'touchstart', triggerSpin, { passive: true });
+
+      const numShards = isMobile ? 18 : 28;
+      const shards = Array.from({ length: numShards }, () => ({
+        x: (Math.random() - 0.5) * 800,
+        y: (Math.random() - 0.5) * 600,
+        z: 100 + Math.random() * 400,
+        rotX: Math.random() * Math.PI,
+        rotY: Math.random() * Math.PI,
+        vRotX: (Math.random() - 0.5) * 0.03,
+        vRotY: (Math.random() - 0.5) * 0.03,
+        size: (isMobile ? 20 : 25) + Math.random() * (isMobile ? 25 : 35),
+        color: Math.random() > 0.4 ? '#5df8d8' : '#f62477'
+      }));
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = 'rgba(29, 29, 27, 0.42)';
+        ctx.fillRect(0, 0, w, h);
+
+        spinBurst *= 0.94;
+        const parallaxX = ((mx / w) - 0.5) * 60;
+        const parallaxY = ((my / h) - 0.5) * 60;
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(93, 248, 216, 0.15)';
+        ctx.beginPath();
+        ctx.moveTo(0, h * 0.2); ctx.lineTo(w, h * 0.8);
+        ctx.moveTo(w * 0.2, 0); ctx.lineTo(w * 0.8, h);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(246, 36, 119, 0.15)';
+        ctx.beginPath();
+        ctx.moveTo(0, h * 0.7); ctx.lineTo(w, h * 0.3);
+        ctx.stroke();
+
+        shards.forEach(sh => {
+          sh.rotX += sh.vRotX * (1 + spinBurst * 3);
+          sh.rotY += sh.vRotY * (1 + spinBurst * 3);
+
+          const scale = 350 / sh.z;
+          const sx = cx + (sh.x + parallaxX) * scale;
+          const sy = cy + (sh.y + parallaxY) * scale;
+          const sz = sh.size * scale;
+
+          ctx.save();
+          ctx.translate(sx, sy);
+          ctx.rotate(sh.rotX);
+
+          ctx.beginPath();
+          ctx.moveTo(0, -sz);
+          ctx.lineTo(sz * 0.86, sz * 0.5);
+          ctx.lineTo(-sz * 0.86, sz * 0.5);
+          ctx.closePath();
+
+          ctx.fillStyle = sh.color === '#5df8d8'
+            ? 'rgba(93, 248, 216, 0.12)'
+            : 'rgba(246, 36, 119, 0.12)';
+          ctx.fill();
+
+          ctx.strokeStyle = sh.color;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+
+          ctx.strokeStyle = '#f5f5f5';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(0, -sz);
+          ctx.lineTo(sz * 0.4, -sz * 0.2);
+          ctx.stroke();
+
+          ctx.restore();
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۲۴: پیچش گرانشی و ستارگان هایپردرایو (Cyber Gravity Warp)
+    // ==========================================
+    function initMode24() {
+      modeBadge.textContent = '[ MODE 24 // CYBER GRAVITY WARP ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO STEER • HOLD TO HYPERDRIVE ]';
+
+      const isMobile = window.innerWidth < 600;
+      const { canvas, ctx, getW, getH } = create2DCanvas();
+      let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+      let targetSteerX = 0, targetSteerY = 0;
+      let steerX = 0, steerY = 0;
+      let isHyperWarp = false;
+
+      const onMouseMove = e => {
+        mx = e.clientX;
+        my = e.clientY;
+        targetSteerX = ((mx / getW()) - 0.5) * 350;
+        targetSteerY = ((my / getH()) - 0.5) * 260;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = e.touches[0].clientX;
+          my = e.touches[0].clientY;
+          targetSteerX = ((mx / getW()) - 0.5) * 350;
+          targetSteerY = ((my / getH()) - 0.5) * 260;
+        }
+      };
+      const onDown = e => { if (e.target !== logoBtn && e.target !== tgBtn) isHyperWarp = true; };
+      const onUp = () => isHyperWarp = false;
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'mousedown', onDown);
+      bindEvent(window, 'mouseup', onUp);
+      bindEvent(window, 'touchstart', onDown, { passive: true });
+      bindEvent(window, 'touchend', onUp);
+
+      const numStars = isMobile ? 320 : 550;
+      const stars = Array.from({ length: numStars }, () => ({
+        x: (Math.random() - 0.5) * 1600,
+        y: (Math.random() - 0.5) * 1200,
+        z: Math.random() * 1000,
+        pz: 1000,
+        color: Math.random() > 0.4 ? '#5df8d8' : '#f62477'
+      }));
+
+      const numComets = isMobile ? 8 : 14;
+      const comets = Array.from({ length: numComets }, () => ({
+        x: (Math.random() - 0.5) * 1200,
+        y: (Math.random() - 0.5) * 900,
+        z: Math.random() * 800,
+        speed: 18 + Math.random() * 12,
+        color: Math.random() > 0.5 ? '#f62477' : '#5df8d8'
+      }));
+
+      function draw() {
+        activeAnimId = requestAnimationFrame(draw);
+        const w = getW(), h = getH();
+        const cx = w / 2, cy = h / 2;
+
+        ctx.fillStyle = isHyperWarp ? 'rgba(29, 29, 27, 0.28)' : 'rgba(29, 29, 27, 0.48)';
+        ctx.fillRect(0, 0, w, h);
+
+        steerX += (targetSteerX - steerX) * 0.05;
+        steerY += (targetSteerY - steerY) * 0.05;
+
+        const warpSpeed = isHyperWarp ? 38 : 12;
+
+        stars.forEach(s => {
+          s.pz = s.z;
+          s.z -= warpSpeed;
+
+          if (s.z <= 1) {
+            s.z = 1000;
+            s.pz = 1000;
+            s.x = (Math.random() - 0.5) * 1600;
+            s.y = (Math.random() - 0.5) * 1200;
+          }
+
+          const k = 320 / s.z;
+          const px = cx + (s.x + steerX) * k;
+          const py = cy + (s.y + steerY) * k;
+
+          const pk = 320 / s.pz;
+          const prevX = cx + (s.x + steerX) * pk;
+          const prevY = cy + (s.y + steerY) * pk;
+
+          ctx.strokeStyle = s.color;
+          ctx.lineWidth = isHyperWarp ? 2.4 : Math.max(1, (1 - s.z / 1000) * 2.5);
+          ctx.beginPath();
+          ctx.moveTo(prevX, prevY);
+          ctx.lineTo(px, py);
+          ctx.stroke();
+        });
+
+        comets.forEach(c => {
+          const oldZ = c.z;
+          c.z -= c.speed * (isHyperWarp ? 2.5 : 1);
+          if (c.z <= 5) {
+            c.z = 900;
+            c.x = (Math.random() - 0.5) * 1200;
+            c.y = (Math.random() - 0.5) * 900;
+          }
+
+          const k = 340 / c.z;
+          const px = cx + (c.x + steerX) * k;
+          const py = cy + (c.y + steerY) * k;
+
+          const oldK = 340 / (oldZ + 40);
+          const oldPX = cx + (c.x + steerX) * oldK;
+          const oldPY = cy + (c.y + steerY) * oldK;
+
+          ctx.strokeStyle = c.color;
+          ctx.lineWidth = 3.5;
+          ctx.beginPath();
+          ctx.moveTo(oldPX, oldPY);
+          ctx.lineTo(px, py);
+          ctx.stroke();
+
+          ctx.fillStyle = '#f5f5f5';
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+      draw();
+    }
+
+    // ==========================================
+    // مود ۲۵: بلورهای ضدجاذبه سه‌بعدی (Three.js Anti-Gravity Shards)
+    // ==========================================
+    function initMode25() {
+      modeBadge.textContent = '[ MODE 25 // ANTI-GRAVITY SHARDS ]';
+      noteEl.innerHTML = '[ CLICK LOGO TO SWITCH THEME ]<br>[ MOVE / SWIPE TO DEFLECT • ZERO-G KINETIC FIELD ]';
+
+      const isMobile = window.innerWidth < 600;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, isMobile ? 42 : 35);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      stage.appendChild(renderer.domElement);
+
+      const numCrystals = isMobile ? 24 : 42;
+      const crystals = [];
+
+      for (let i = 0; i < numCrystals; i++) {
+        const size = (isMobile ? 1.4 : 1.8) + Math.random() * 1.5;
+        const isOcta = i % 2 === 0;
+        const geo = isOcta
+          ? new THREE.OctahedronGeometry(size)
+          : new THREE.TetrahedronGeometry(size);
+
+        const edgesGeo = new THREE.EdgesGeometry(geo);
+
+        const solidMat = new THREE.MeshBasicMaterial({ color: 0x141413 });
+        const solidMesh = new THREE.Mesh(geo, solidMat);
+
+        const isPink = i % 3 === 0;
+        const edgeColor = isPink ? 0xf62477 : 0x5df8d8;
+        const edgeMat = new THREE.LineBasicMaterial({
+          color: edgeColor,
+          linewidth: 2,
+          transparent: true,
+          opacity: 0.85
+        });
+        const edgeMesh = new THREE.LineSegments(edgesGeo, edgeMat);
+
+        const group = new THREE.Group();
+        group.add(solidMesh);
+        group.add(edgeMesh);
+
+        // موقعیت‌یابی در هاله محیطی اطراف کادر متن
+        const angle = (i / numCrystals) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+        const distRad = (isMobile ? 12 : 16) + Math.random() * (isMobile ? 14 : 22);
+
+        const anchorX = Math.cos(angle) * distRad * 1.25;
+        const anchorY = Math.sin(angle) * distRad * 0.95;
+        const anchorZ = (Math.random() - 0.5) * 16;
+
+        group.position.set(anchorX, anchorY, anchorZ);
+        scene.add(group);
+
+        crystals.push({
+          group,
+          anchorX,
+          anchorY,
+          anchorZ,
+          vx: 0,
+          vy: 0,
+          vz: 0,
+          rotX: (Math.random() - 0.5) * 0.02,
+          rotY: (Math.random() - 0.5) * 0.02,
+          rotZ: (Math.random() - 0.5) * 0.02
+        });
+      }
+
+      let mx = 0, my = 0;
+      let shockwave = 0;
+
+      const onMouseMove = e => {
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
+      };
+      const onTouchMove = e => {
+        if (e.touches && e.touches[0]) {
+          mx = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+          my = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+        }
+      };
+      const triggerShock = e => {
+        if (e.target !== logoBtn && e.target !== tgBtn) shockwave = 1.0;
+      };
+      const onResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.position.z = window.innerWidth < 600 ? 42 : 35;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+
+      bindEvent(window, 'mousemove', onMouseMove);
+      bindEvent(window, 'touchmove', onTouchMove, { passive: true });
+      bindEvent(window, 'click', triggerShock);
+      bindEvent(window, 'touchstart', triggerShock, { passive: true });
+      bindEvent(window, 'resize', onResize);
+
+      addCleanup(() => {
+        renderer.dispose();
+        renderer.forceContextLoss?.();
+        scene.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+            else obj.material.dispose();
+          }
+        });
+      });
+
+      function animate() {
+        activeAnimId = requestAnimationFrame(animate);
+
+        shockwave *= 0.92;
+
+        const cursor3DX = mx * 25;
+        const cursor3DY = -my * 20;
+
+        crystals.forEach(c => {
+          c.group.rotation.x += c.rotX;
+          c.group.rotation.y += c.rotY;
+          c.group.rotation.z += c.rotZ;
+
+          // نیروی بازگرداننده فنری ملایم به نقطه تعادل ضدجاذبه
+          c.vx += (c.anchorX - c.group.position.x) * 0.03;
+          c.vy += (c.anchorY - c.group.position.y) * 0.03;
+          c.vz += (c.anchorZ - c.group.position.z) * 0.03;
+
+          // دافعه سینتیکی قوی با مکان‌نما یا لمس
+          const dx = c.group.position.x - cursor3DX;
+          const dy = c.group.position.y - cursor3DY;
+          const dist = Math.hypot(dx, dy) || 1;
+
+          if (dist < 16) {
+            const force = Math.pow((16 - dist) / 16, 2) * 2.2;
+            c.vx += (dx / dist) * force;
+            c.vy += (dy / dist) * force;
+            c.rotX += (Math.random() - 0.5) * 0.08;
+            c.rotY += (Math.random() - 0.5) * 0.08;
+          }
+
+          // شوک کوانتومی هنگام کلیک / تپ
+          if (shockwave > 0.05) {
+            c.vx += (Math.random() - 0.5) * shockwave * 4;
+            c.vy += (Math.random() - 0.5) * shockwave * 4;
+            c.vz += (Math.random() - 0.5) * shockwave * 4;
+          }
+
+          c.vx *= 0.9;
+          c.vy *= 0.9;
+          c.vz *= 0.9;
+
+          c.group.position.x += c.vx;
+          c.group.position.y += c.vy;
+          c.group.position.z += c.vz;
+        });
+
+        camera.position.x += (mx * 4 - camera.position.x) * 0.05;
+        camera.position.y += (-my * 4 - camera.position.y) * 0.05;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    // راه‌اندازی تم بر اساس شماره (1 تا 25)
+    function launchMode(mode) {
+      resetEnvironment();
+      switch (mode) {
+        case 1: initMode1(); break;
+        case 2: initMode2(); break;
+        case 3: initMode3(); break;
+        case 4: initMode4(); break;
+        case 5: initMode5(); break;
+        case 6: initMode6(); break;
+        case 7: initMode7(); break;
+        case 8: initMode8(); break;
+        case 9: initMode9(); break;
+        case 10: initMode10(); break;
+        case 11: initMode11(); break;
+        case 12: initMode12(); break;
+        case 13: initMode13(); break;
+        case 14: initMode14(); break;
+        case 15: initMode15(); break;
+        case 16: initMode16(); break;
+        case 17: initMode17(); break;
+        case 18: initMode18(); break;
+        case 19: initMode19(); break;
+        case 20: initMode20(); break;
+        case 21: initMode21(); break;
+        case 22: initMode22(); break;
+        case 23: initMode23(); break;
+        case 24: initMode24(); break;
+        case 25: initMode25(); break;
+        default: initMode1(); break;
+      }
+    }
+
+    // چرخش ترتیبی بین ۲۵ تم با کلیک یا لمس روی لوگو
+    function handleLogoNext(e) {
       e.stopPropagation();
-      currentMode = (currentMode % 5) + 1;
+      currentMode = (currentMode % 25) + 1;
       launchMode(currentMode);
+    }
+    logoBtn.addEventListener('click', handleLogoNext);
+
+    tgBtn.addEventListener('click', (e) => e.stopPropagation());
+
+    // کلیدهای میانبر چپ و راست برای جابجایی سریع
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        currentMode = (currentMode % 25) + 1;
+        launchMode(currentMode);
+      } else if (e.key === 'ArrowLeft') {
+        currentMode = currentMode === 1 ? 25 : currentMode - 1;
+        launchMode(currentMode);
+      }
     });
 
-    // اجرای اولیه هنگام باز شدن صفحه
+    // شروع اولیه با مود انتخاب شده
     launchMode(currentMode);
   </script>
 </body>
